@@ -30,11 +30,12 @@ class qr_processor:
     def __init__(self, img):
         self.img = img
         #Define coordinate points for each corner of QR code.
-        self.edges = np.array([[0,0,0],
-                                [0,1,0],
+        self.edges = np.array([[-1,1,0],
                                 [1,1,0],
-                                [1,0,0]], dtype = 'float32').reshape((4,1,3))
-    
+                                [1,-1,0],
+                                [-1,-1,0]], dtype = 'float32').reshape((4,1,3))
+        print(self.edges)
+        
     def camera_settr(self, cmtx, dist):
         self.cmtx = np.array(cmtx)
         self.dist = np.array(dist)
