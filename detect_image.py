@@ -31,10 +31,11 @@ class qr_processor:
         self.img = img
         #Define coordinate points for each corner of QR code.
         mark_length = 2 # meter
-        self.edges = np.array([[-mark_length/2.0,mark_length/2.0,0],
-                                [mark_length/2.0,mark_length/2.0,0],
-                                [mark_length/2.0,-mark_length/2.0,0],
-                                [-mark_length/2.0,-mark_length/2.0,0]], dtype = 'float32').reshape((4,1,3))
+        depth = -5 #
+        self.edges = np.array([[-mark_length/2.0,mark_length/2.0,depth],
+                                [mark_length/2.0,mark_length/2.0,depth],
+                                [mark_length/2.0,-mark_length/2.0,depth],
+                                [-mark_length/2.0,-mark_length/2.0,depth]], dtype = 'float32').reshape((4,1,3))
         
     def camera_settr(self, cmtx, dist):
         self.cmtx = np.array(cmtx)
@@ -58,7 +59,6 @@ class qr_processor:
         for corners in corners_multi:
             #determine the orientation of QR code coordinate system with respect to camera coorindate system.
             success, rvec, tvec = cv.solvePnP(self.edges, corners, self.cmtx, self.dist)
-            
             [rvec,_] = cv.Rodrigues(rvec)
 
             if success:
@@ -153,7 +153,7 @@ class aruco_process(qr_processor):
         
 if __name__ == '__main__':
 
-    code_name = "qr" # "qr" or "aruco"
+    code_name = "aruco" # "qr" or "aruco"
     
     camera_filepath = 'intrinsic.dat'
     #read camera intrinsic parameters.
